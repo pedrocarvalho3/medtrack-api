@@ -1,7 +1,5 @@
-version: '3.8'
-
 services:
-  api-solid-pg:
+  api-med-pg:
     image: bitnami/postgresql
     ports:
       - 5432:5432
