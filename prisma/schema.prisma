@@ -13,6 +13,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PeriodicityType {
+  INTERVAL
+  FIXED_TIMES
+}
 
 model User {
   id          String @id @default(uuid())
@@ -29,7 +33,8 @@ model Medication {
   id                       String   @id @default(uuid())
   user_id                  String  
   name                     String
-  dosage                   String  
+  dosage                   String 
+  periodicityType          PeriodicityType 
   periodicity              String   
   validity                 DateTime 
   quantityAvailable        Float    

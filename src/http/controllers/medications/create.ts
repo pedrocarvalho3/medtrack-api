@@ -6,13 +6,20 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createBodySchema = z.object({
     name: z.string(),
     dosage: z.string(),
+    periodicityType: z.enum(["INTERVAL", "FIXED_TIMES"]),
     periodicity: z.string(),
     validity: z.coerce.date(),
     quantityAvailable: z.number(),
   });
 
-  const { name, dosage, periodicity, validity, quantityAvailable } =
-    createBodySchema.parse(request.body);
+  const {
+    name,
+    dosage,
+    periodicityType,
+    periodicity,
+    validity,
+    quantityAvailable,
+  } = createBodySchema.parse(request.body);
 
   try {
     const createUseCase = makeCreateMedicationsUseCase();
@@ -22,6 +29,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     await createUseCase.execute({
       name,
       dosage,
+      periodicityType,
       periodicity,
       validity,
       quantityAvailable,

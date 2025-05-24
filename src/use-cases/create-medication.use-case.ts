@@ -1,10 +1,11 @@
-import type { Medication } from "@prisma/client";
+import type { $Enums, Medication } from "@prisma/client";
 import type { MedicationsRepository } from "@/repositories/medications.repository";
 
 export interface CreateMedicationUseCaseRequest {
   userId: string;
   name: string;
   dosage: string;
+  periodicityType: $Enums.PeriodicityType;
   periodicity: string;
   validity: Date;
   quantityAvailable: number;
@@ -21,6 +22,7 @@ export class CreateMedicationUseCase {
     userId,
     name,
     dosage,
+    periodicityType,
     periodicity,
     validity,
     quantityAvailable,
@@ -29,6 +31,7 @@ export class CreateMedicationUseCase {
       user_id: userId,
       name,
       dosage,
+      periodicityType,
       periodicity,
       validity,
       quantityAvailable,
