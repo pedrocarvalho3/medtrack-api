@@ -20,5 +20,22 @@ model User {
   email       String @unique
   password    String
 
+  medications Medication[]
+
   @@map("users")
+}
+
+model Medication {
+  id                       String   @id @default(uuid())
+  user_id                  String  
+  name                     String
+  dosage                   String  
+  periodicity              String   
+  validity                 DateTime 
+  quantityAvailable        Float    
+  createdAt                DateTime @default(now()) 
+
+  user                     User     @relation(fields: [user_id], references: [id])
+
+  @@map("medications")
 }
