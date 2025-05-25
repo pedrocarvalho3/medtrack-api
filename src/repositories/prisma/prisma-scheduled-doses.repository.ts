@@ -71,4 +71,15 @@ export class PrismaScheduledDosesRepository
 
     return { count: result.count };
   }
+
+  async updateStatus(scheduledDoseId: string, status: DoseStatus) {
+    await prisma.scheduledDose.update({
+      where: {
+        id: scheduledDoseId,
+      },
+      data: {
+        status,
+      },
+    });
+  }
 }
