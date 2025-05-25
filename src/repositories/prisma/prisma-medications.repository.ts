@@ -15,6 +15,30 @@ export class PrismaMedicationsRepository implements MedicationsRepository {
     return medications;
   }
 
+  async findById(id: string): Promise<Medication | null> {
+    const medication = await prisma.medication.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return medication;
+  }
+
+  async addStock(id: string, quantity: number): Promise<Medication> {
+    const medication = await prisma.medication.update({
+      where: {
+        id,
+      },
+      data: {
+        quantityAvailable: {
+          increment: quantity,
+        },
+      },
+    });
+    return medication;
+  }
+
   async create(
     data: Prisma.MedicationUncheckedCreateInput
   ): Promise<Medication> {
