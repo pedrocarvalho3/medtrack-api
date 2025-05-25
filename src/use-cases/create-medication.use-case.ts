@@ -1,5 +1,6 @@
 import type { $Enums, Medication } from "@prisma/client";
 import type { MedicationsRepository } from "@/repositories/medications.repository";
+import type { GenerateScheduledDosesUseCase } from "./generate-scheduled-doses.use-case";
 
 export interface CreateMedicationUseCaseRequest {
   userId: string;
@@ -16,7 +17,10 @@ export interface CreateMedicationUseCaseResponse {
 }
 
 export class CreateMedicationUseCase {
-  constructor(private medicationsRepository: MedicationsRepository) {}
+  constructor(
+    private medicationsRepository: MedicationsRepository,
+    private generateScheduledDosesUseCase: GenerateScheduledDosesUseCase
+  ) {}
 
   async execute({
     userId,
@@ -36,6 +40,8 @@ export class CreateMedicationUseCase {
       validity,
       quantityAvailable,
     });
+
+    await this.generateScheduledDosesUseCase.execute({ medication });
 
     return { medication };
   }

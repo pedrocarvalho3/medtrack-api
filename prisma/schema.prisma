@@ -18,6 +18,13 @@ enum PeriodicityType {
   FIXED_TIMES
 }
 
+enum DoseStatus {
+  PENDING      
+  TAKEN       
+  SNOOZED      
+  MISSED     
+}
+
 model User {
   id          String @id @default(uuid())
   name        String
@@ -41,6 +48,20 @@ model Medication {
   createdAt                DateTime @default(now()) 
 
   user                     User     @relation(fields: [user_id], references: [id])
+  
+  scheduled_doses           ScheduledDose[]
 
   @@map("medications")
+}
+
+model ScheduledDose {
+  id             String       @id @default(uuid())
+  medication_id  String
+  scheduledAt    DateTime     
+  status         DoseStatus   @default(PENDING)
+  createdAt      DateTime     @default(now())
+
+  medication     Medication   @relation(fields: [medication_id], references: [id])
+
+  @@map("scheduled_doses")
 }
