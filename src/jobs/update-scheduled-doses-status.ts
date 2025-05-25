@@ -1,18 +1,18 @@
 import cron from "node-cron";
 import { makeCheckLowStockUseCase } from "@/use-cases/fatories/make-check-low-stock.use-case";
 
-export function startStockMonitorJob() {
+export function startUpdateMissedDosesJob() {
   cron.schedule(
     "0 */2 * * *",
     async () => {
-      console.log("Running stock monitor job...");
+      console.log("Running scheduled doses job...");
 
       try {
         const checkLowStockUseCase = makeCheckLowStockUseCase();
         await checkLowStockUseCase.execute();
-        console.log("Stock monitor job completed successfully");
+        console.log("Scheduled doses job completed successfully");
       } catch (error) {
-        console.error("Error in stock monitor job:", error);
+        console.error("Error in scheduled doses job:", error);
       }
     },
     {
@@ -20,5 +20,5 @@ export function startStockMonitorJob() {
     }
   );
 
-  console.log("Stock monitor cron job started - runs every 1 hour");
+  console.log("Scheduled doses cron job started - runs every 1 hour");
 }

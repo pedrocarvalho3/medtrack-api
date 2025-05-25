@@ -16,4 +16,5 @@ export interface ScheduledDosesRepository {
   createMany(
     data: Prisma.ScheduledDoseCreateManyInput[]
   ): Promise<Prisma.BatchPayload>;
+  updateMissedDoses(): Promise<{ count: number }>;
 }

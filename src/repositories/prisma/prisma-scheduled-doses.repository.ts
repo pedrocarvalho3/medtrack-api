@@ -52,4 +52,23 @@ export class PrismaScheduledDosesRepository
     });
     return result;
   }
+
+  async updateMissedDoses(): Promise<{ count: number }> {
+    const oneHourAgo = new Date();
+    oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
+    const result = await prisma.scheduledDose.updateMany({
+      where: {
+        status: "PENDING",
+        scheduledAt: {
+          lt: oneHourAgo,
+        },
+      },
+      data: {
+        status: "MISSED",
+      },
+    });
+
+    return { count: result.count };
+  }
 }
