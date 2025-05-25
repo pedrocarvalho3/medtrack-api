@@ -39,6 +39,18 @@ export class PrismaMedicationsRepository implements MedicationsRepository {
     return medication;
   }
 
+  async findLowStock(threshold: number): Promise<Medication[]> {
+    const medications = await prisma.medication.findMany({
+      where: {
+        quantityAvailable: {
+          lte: threshold,
+        },
+      },
+    });
+
+    return medications;
+  }
+
   async create(
     data: Prisma.MedicationUncheckedCreateInput
   ): Promise<Medication> {

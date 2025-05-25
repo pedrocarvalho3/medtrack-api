@@ -6,6 +6,7 @@ import type { User } from "@prisma/client";
 interface AuthenticateUseCaseRequest {
   email: string;
   password: string;
+  notificationToken: string;
 }
 
 interface AuthenticateUseCaseResponse {
@@ -18,6 +19,7 @@ export class AuthenticateUseCase {
   async execute({
     email,
     password,
+    notificationToken,
   }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
     const user = await this.usersRepository.findByEmail(email);
 
@@ -31,8 +33,13 @@ export class AuthenticateUseCase {
       throw new InvalidCredentialsError();
     }
 
+    const updatedUser = await this.usersRepository.updateNotificationToken(
+      user.id,
+      notificationToken
+    );
+
     return {
-      user,
+      user: updatedUser,
     };
   }
 }

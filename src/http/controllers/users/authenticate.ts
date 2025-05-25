@@ -10,9 +10,12 @@ export async function authenticate(
   const authenticateBodySchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
+    notificationToken: z.string(),
   });
 
-  const { email, password } = authenticateBodySchema.parse(request.body);
+  const { email, password, notificationToken } = authenticateBodySchema.parse(
+    request.body
+  );
 
   try {
     const authenticateUseCase = makeAuthenticateUseCase();
@@ -20,6 +23,7 @@ export async function authenticate(
     const { user } = await authenticateUseCase.execute({
       email,
       password,
+      notificationToken,
     });
 
     const token = await reply.jwtSign(
