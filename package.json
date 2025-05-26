@@ -2,9 +2,12 @@
   "name": "api",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
-    "build": "tsup src"
+    "build": "tsup src --out-dir build"
   },
   "license": "MIT",
   "devDependencies": {
