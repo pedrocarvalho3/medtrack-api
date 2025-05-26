@@ -5,6 +5,8 @@ interface ListScheduledDosesUseCaseRequest {
   userId: string;
   page?: number;
   status?: DoseStatus[];
+  startDate?: Date;
+  endDate?: Date;
 }
 
 interface ListScheduledDosesUseCaseResponse {
@@ -18,11 +20,15 @@ export class ListScheduledDosesUseCase {
     userId,
     page = 1,
     status,
+    startDate,
+    endDate,
   }: ListScheduledDosesUseCaseRequest): Promise<ListScheduledDosesUseCaseResponse> {
     const scheduledDoses = await this.scheduledDosesRepository.findAll(
       userId,
       page,
-      status
+      status,
+      startDate,
+      endDate
     );
 
     return { scheduledDoses };

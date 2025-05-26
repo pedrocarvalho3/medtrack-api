@@ -11,7 +11,9 @@ export class PrismaScheduledDosesRepository
   async findAll(
     userId: string,
     page: number = 1,
-    status?: DoseStatus[]
+    status?: DoseStatus[],
+    startDate?: Date,
+    endDate?: Date
   ): Promise<ScheduledDoseWithMedication[]> {
     const scheduledDoses = await prisma.scheduledDose.findMany({
       where: {
@@ -24,6 +26,12 @@ export class PrismaScheduledDosesRepository
               in: status,
             },
           }),
+        ...((startDate || endDate) && {
+          scheduledAt: {
+            ...(startDate && { gte: startDate }),
+            ...(endDate && { lte: endDate }),
+          },
+        }),
       },
       include: {
         medication: {

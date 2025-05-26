@@ -11,7 +11,9 @@ export interface ScheduledDosesRepository {
   findAll(
     userId: string,
     page: number,
-    status: DoseStatus[] | undefined
+    status: DoseStatus[] | undefined,
+    startDate?: Date,
+    endDate?: Date
   ): Promise<ScheduledDoseWithMedication[]>;
   createMany(
     data: Prisma.ScheduledDoseCreateManyInput[]

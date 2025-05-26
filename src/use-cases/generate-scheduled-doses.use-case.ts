@@ -30,8 +30,6 @@ export class GenerateScheduledDosesUseCase {
       const intervalHours = periodicityNumber;
       const currentDate = new Date(startDate);
 
-      currentDate.setHours(0, 0, 0, 0);
-
       while (currentDate <= endDate && currentDate <= medication.validity) {
         if (currentDate >= startDate) {
           doses.push({
@@ -48,7 +46,6 @@ export class GenerateScheduledDosesUseCase {
     } else if (medication.periodicity.includes(":")) {
       const times = medication.periodicity.split(",");
       const currentDate = new Date(startDate);
-      currentDate.setHours(0, 0, 0, 0);
 
       while (currentDate <= endDate && currentDate <= medication.validity) {
         times.forEach((time) => {
